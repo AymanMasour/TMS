@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="css/animate.css" />
+    <link rel="stylesheet" href="./css/all.min.css" />
+    <link rel="stylesheet" href="./css/normaliz.css" />
+    <link rel="stylesheet" href="./chatbotStyle.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap"
+      rel="stylesheet" />
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="https://user-images.githubusercontent.com/20112458/49326597-773b7280-f57a-11e8-853d-20ed61d18b0d.png"
+    />
+    <title>Egypt Tourism -Chatbot</title>
+  </head>
+  <body>
+  <style>
+  
+  /* start chatbot page  */
+  .container {
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.chatbot-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 100px;
+  height: 100vh;
+  background-color: rgb(252, 245, 236);
+}
+.chatbot-page .chatbot-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 30px;
+  width: 600px;
+  height: 400px;
+  background-color: white;
+  border: 1px solid #d4d4d4;
+  padding: 20px;
+  border-radius: 24px;
+  margin: 0 40px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  
+}
+.chatbot-page .chatbot-box .text-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  gap: 15px;
+  padding: 15px;
+  flex: 1;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+   overflow-y: scroll; 
+    
+}
+
+.chatbot-page .chatbot-box .text-box .content-msg img {
+  width: 40px;
+}
+.chatbot-page .chatbot-box .text-box .msg-chat {
+  padding: 15px;
+  background-color: #da7d00;
+  width: fit-content;
+  border-radius: 12px;
+}
+.chatbot-page .chatbot-box .text-box .msg-chat.msg-user {
+  background-color: #eee;
+  margin-left: auto;
+}
+.chatbot-page .chatbot-box .text-box .msg-chat.msg-robot {
+  background-color: #da7d00;
+  color: white;
+}
+.chatbot-page .chatbot-box .text-write {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.chatbot-page .chatbot-box .text-write .user-img img {
+  width: 50px;
+}
+.chatbot-page .chatbot-box .text-write .form {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+}
+.chatbot-page .chatbot-box .text-write .form input {
+  padding: 15px;
+  background-color: #eee;
+  flex: 1;
+  border: none;
+  outline: none;
+  border-radius: 12px;
+}
+.chatbot-page .chatbot-box .text-write .form button {
+  cursor: pointer;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  font-size: 21px;
+  color: #da7d00;
+}
+/* End chatbot page  */
+  </style>
+    <!-- start chatbot -->
+    <section class="chatbot-page">
+      <div class="chatbot-box wow animate__animated animate__zoomIn">
+      
+        <div id="chatbox"  class="text-box">
+
+        </div>
+        <div class="text-write">
+          <div class="user-img"><img src="./img/robot.png" alt="" /></div>
+          <div class="form" id="userInput">
+          
+            <input id="textInput"  name="msg" type="text" placeholder="Write your Questions" />
+            <button><i class="fa-solid fa-paper-plane"></i></button>
+          
+          </div>
+        </div>
+      </div>
+    </section>
+        <script>
+        function getBotResponse() {
+          var rawText = $("#textInput").val();
+          var userHtml = `<div class="msg-chat msg-user">${rawText}</div>`  ;
+          $("#textInput").val("");
+          $("#chatbox").append(userHtml);
+          document
+            .getElementById("userInput")
+            .scrollIntoView({ block: "start", behavior: "smooth" });
+          $.get("/get", { msg: rawText }).done(function(data) {
+            var botHtml = `<div class="msg-chat msg-robot">${data}</div>`;
+            $("#chatbox").append(botHtml);
+            document
+              .getElementById("userInput")
+              .scrollIntoView({ block: "start", behavior: "smooth" });
+          });
+        }
+        $("#textInput").keypress(function(e) {
+          if (e.which == 13) {
+            getBotResponse();
+          }
+        });
+</script>
+    <!-- end chatbot -->
+  </body>
+</html>
